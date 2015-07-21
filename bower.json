@@ -12,7 +12,6 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#1.0.0",
-    "page": "visionmedia/page.js#~1.6.3"
+    "polymer": "Polymer/polymer#1.0.0"
   }
 }
