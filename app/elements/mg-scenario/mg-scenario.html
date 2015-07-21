@@ -1,0 +1,394 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mg-bullet-munition/mg-bullet-munition.html">
+<link rel="import" href="../mg-enemy/mg-cowboy.html">
+<link rel="import" href="../mg-enemy/mg-apache.html">
+<link rel="import" href="../mg-enemy/mg-girl.html">
+
+<dom-module id="mg-scenario">
+    <link rel="stylesheet" type="text/css" href="positions.css">
+    <template>
+        <audio id="theme-audio" src="audio/theme.ogg" autoplay loop aria-hidden="true"></audio>
+        <audio id="hit-audio0" src="audio/hit.ogg" aria-hidden="true"></audio>
+        <audio id="hit-audio1" src="audio/hit.ogg" aria-hidden="true"></audio>
+        <audio id="hit-audio2" src="audio/hit.ogg" aria-hidden="true"></audio>
+        <audio id="hit-audio3" src="audio/hit.ogg" aria-hidden="true"></audio>
+        <audio id="hit-audio4" src="audio/hit.ogg" aria-hidden="true"></audio>
+
+        <div class$="{{introComputed}}">
+          <h1>MASTER GUN</h1>
+          <button class="play-button" on-click="startGame" aria-hidden="{{gameStarted}}">PLAY!</button>
+
+        </div>
+        <div class="background" on-click="incrementShoots">
+          <div class$="{{shadowComputed}}"></div>
+          <p class="byText">
+            <a href="http://alexarroyoduque.github.io/#/home" target="_black" title="portfolio">Alejandro Arroyo Duque</a>
+          </p>
+          <p class="poweredText">
+            <a href="https://www.polymer-project.org/1.0/" target="_black" title="polymer">Polymer project</a>
+          </p>
+
+          <div class="scenario"></div>
+          <div class="scenario2"></div>
+          <div class$="{{flashComputedClass}}"></div>
+          <mg-cowboy init="{{gameStarted}}" time-show="2000" time-hide="4000" class="window-1"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="4000" time-hide="1900" class="window-2"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="4800" time-hide="1900" class="window-3"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="5500" time-hide="3000" class="window-5"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="6000" time-hide="2000" class="window-4"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="7200" time-hide="1700" class="window-1"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="8500" time-hide="1500" class="window-3"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="9000" time-hide="2000" class="window-2"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="9300" time-hide="2000" class="window-6"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="10500" time-hide="2500" class="window-7"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="12000" time-hide="2000" class="window-8"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="13000" time-hide="2000" class="window-9"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="15000" time-hide="2000" class="window-1"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="15000" time-hide="3000" class="window-3"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="16500" time-hide="2500" class="window-5"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="16000" time-hide="2000" class="window-8"></mg-cowboy>
+          <mg-apache init="{{gameStarted}}" time-show="19000" time-hide="3000" class="sand-1"></mg-apache>
+          <mg-apache init="{{gameStarted}}" time-show="19000" time-hide="3000" class="sand-3"></mg-apache>
+          <mg-cowboy init="{{gameStarted}}" time-show="21000" time-hide="1800" class="window-3"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="21000" time-hide="2000" class="window-6"></mg-cowboy>
+          <mg-girl init="{{gameStarted}}" time-show="22000" time-hide="2000" class="sand-2"></mg-girl>
+          <mg-apache init="{{gameStarted}}" time-show="22500" time-hide="2000" class="sand-4"></mg-apache>
+          <mg-cowboy init="{{gameStarted}}" time-show="22600" time-hide="2000" class="window-1"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="23500" time-hide="2000" class="window-3"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="23500" time-hide="2000" class="window-5"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="24900" time-hide="2000" class="window-1"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="25000" time-hide="3000" class="window-8"></mg-cowboy>
+          <mg-apache init="{{gameStarted}}" time-show="26000" time-hide="2500" class="sand-5"></mg-apache>
+          <mg-apache init="{{gameStarted}}" time-show="26000" time-hide="2500" class="sand-2"></mg-apache>
+          <mg-girl init="{{gameStarted}}" time-show="26000" time-hide="2500" class="sand-3"></mg-girl>
+          <mg-girl init="{{gameStarted}}" time-show="26000" time-hide="2500" class="sand-4"></mg-girl>
+          <mg-cowboy init="{{gameStarted}}" time-show="26500" time-hide="3000" class="window-4"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="27000" time-hide="3000" class="window-6"></mg-cowboy>
+          <mg-cowboy init="{{gameStarted}}" time-show="28000" time-hide="3000" class="window-7"></mg-cowboy>
+          <mg-apache init="{{gameStarted}}" time-show="29000" time-hide="900" class="sand-1"></mg-apache>
+          <mg-girl init="{{gameStarted}}" time-show="30000" time-hide="900" class="sand-2"></mg-girl>
+          <mg-apache init="{{gameStarted}}" time-show="31000" time-hide="900" class="sand-3"></mg-apache>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="3000" time-hide="4000" class="window-6"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="7000" time-hide="4000" class="window-9"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="17000" time-hide="4000" class="window-2"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="23000" time-hide="4000" class="window-4"></mg-bullet-munition>
+        </div>
+      <button class="reload" on-click="reload">RELOAD</button>
+      <p class="reloadText">Or press space to reload</p>
+    </template>
+    <style>
+        :host {
+            background-color: #E0E0E0;
+            order: 1;
+            flex: 0 1 auto;
+            align-self: auto;
+            min-width: 100%;
+            min-height: 100%;
+            height: 100%;
+        }
+
+
+        .intro {
+          position: absolute;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+          top: 20%;
+          z-index: 99999;
+          text-align: center;
+          height: 80%;
+          background-image: url('images/intro.png');
+          background-repeat: no-repeat;
+          background-position: 50%;
+          background-size: contain;
+        }
+
+        .intro h1 {
+          color: white;
+          margin: 10px;
+          font-size: 46px;
+          text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+        }
+
+        .play-button {
+          font-size: 18px;
+          padding: 10px 25px;
+          background-color: #FF4031;
+          border: 2px solid black;
+          font-family: rye;
+          transform: rotate(2deg);
+          box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+          margin-top: 20%;
+
+          animation-name: play-button-animation;
+          animation-iteration-count: infinite;
+          animation-duration: 1s;
+          animation-timing-function: ease-out;
+          animation-direction: alternate;
+        }
+
+        .play-button:hover {
+            background-color: #FF584B;
+        }
+
+        .hide {
+          display: none;
+        }
+
+        @keyframes play-button-animation {
+          0% {
+            transform: rotate(2deg);
+          }
+
+          100% {
+            font-size: 40px;
+            transform: rotate(-3deg);
+          }
+        }
+
+        .reload {
+          position: fixed;
+          left: 20px;
+          bottom: 10px;
+          font-size: 18px;
+          padding: 10px;
+          background-color: rgb(255, 217, 0);
+          border: 2px solid black;
+          font-family: rye;
+          z-index: 99999;
+          box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+        }
+
+        .reloadText {
+          position: fixed;
+          left: 150px;
+          bottom: 10px;
+          padding: 14px;
+          font-family: rye;
+          font-size: 16px;
+          z-index: 99999;
+          color: white;
+          background-color: rgba(0, 0, 0, 0.57);
+          margin: 0;
+        }
+
+        .poweredText {
+          position: absolute;
+          right: 20px;
+          top: 25px;
+          padding: 5px;
+          font-family: arial;
+          font-size: 12px;
+          margin: 0;
+        }
+
+        .poweredText a {
+          color: rgb(60, 60, 60);
+          font-family: arial;
+          font-size: 12px;
+        }
+
+        .byText{
+          position: absolute;
+          right: 20px;
+          top: 5px;
+          padding: 5px;
+          font-family: arial;
+          font-size: 14px;
+          margin: 0;
+        }
+
+        .byText a {
+          color: rgb(60, 60, 60);
+          font-family: rye;
+          font-size: 12px;
+        }
+
+        .background {
+            position: relative;
+            display: flex;
+            height: 100%;
+            background-color: rgb(231, 222, 186);
+            background-image: url('images/background.jpg');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .shadow {
+            position: absolute;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            z-index: 10001;
+        }
+
+        .scenario {
+            position: absolute;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            background-image: url('images/scenario-768.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none; /* no clicks */
+            z-index: 1000; /* more than cowboys, less than apaches */
+        }
+
+        .scenario2 {
+            position: absolute;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            background-image: url('images/scenario2-768.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            pointer-events: none; /* no clicks */
+            z-index: 10000;
+        }
+
+
+        .flash {
+            position: absolute;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            background-color: white;
+            pointer-events: none; /* no clicks */
+            z-index: 10000;
+            opacity: 0;
+        }
+
+        .flash.show {
+          animation-name: show-flash-animation;
+          animation-timing-function: cubic-bezier(0.17, 0.43, 0.58, 1);
+          animation-duration: 0.1s;
+        }
+
+        @keyframes show-flash-animation {
+          0% {
+            opacity: 0;
+          }
+
+          100% {
+            opacity: 1;
+          }
+        }
+
+        @media (min-width: 1023px) {
+          .scenario {
+            background-image: url('images/scenario-1024.png');
+          }
+          .scenario2 {
+            background-image: url('images/scenario2-1024.png');
+          }
+        }
+
+        @media (min-width: 1199px) {
+          .scenario {
+            background-image: url('images/scenario-1200.png');
+          }
+          .scenario2 {
+            background-image: url('images/scenario2-1200.png');
+          }
+        }
+
+    </style>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'mg-scenario',
+        properties: {
+            shoots: {
+                type: Number,
+                value: 0,
+                notify: true,
+                observer: 'shootBullet'
+            },
+            flashComputedClass: {
+                type: String,
+                value: 'flash'
+            },
+            gameStarted: {
+                type: Boolean,
+                value: false
+            },
+            introComputed: {
+                type: String,
+                value: 'intro'
+            },
+            shadowComputed: {
+                type: String,
+                value: 'shadow'
+            }
+        },
+        hitAudios: [],
+        oldRandomIndex: 0,
+        newRandomIndex: 1,
+        mgMunition: '',
+        ready: function () {
+            document.addEventListener('WebComponentsReady', (function(e) {
+                this.mgMunition = document.querySelector('mg-munition');
+                this.mgScore = document.querySelector('mg-score');
+                this.push('hitAudios', document.querySelector('#hit-audio0'));
+                this.push('hitAudios', document.querySelector('#hit-audio1'));
+                this.push('hitAudios', document.querySelector('#hit-audio2'));
+                this.push('hitAudios', document.querySelector('#hit-audio3'));
+                this.push('hitAudios', document.querySelector('#hit-audio4'));
+                this.themeAudio = document.querySelector('#theme-audio');
+                this.themeAudio.volume = 0.8;
+            }).bind(this));
+
+            document.addEventListener('keypress', (function(e){
+                if(e.keyCode === 32 || e.charCode === 32) {
+                    e.preventDefault();
+                    this.reload();
+                }
+            }).bind(this));
+        },
+        startGame: function () {
+          this.introComputed = 'hide';
+          this.shadowComputed = 'hide';
+          this.gameStarted = true;
+          this.shoots = 0;
+          this.mgMunition.munition = 18;
+          this.mgScore.setScore(0);
+        },
+        playHitAudio: function () {
+            //Math.floor(Math.random() * (max - min + 1)) + min;
+            this.newRandomIndex = Math.floor(Math.random() * (4));
+            if (this.newRandomIndex === this.oldRandomIndex) {
+                this.newRandomIndex++;
+            }
+            this.oldRandomIndex = this.newRandomIndex;
+            this.hitAudios[this.newRandomIndex].play();
+        },
+        reload: function () {
+            this.mgMunition.substractMunition();
+        },
+        getShoots: function () {
+            return this.shoots;
+        },
+        generateFlash: function () {
+            if (this.shoots < 7) {
+                this.flashComputedClass = 'flash show';
+
+                setTimeout((function () {
+                    this.flashComputedClass = 'flash';
+                }).bind(this), 100);
+            }
+        },
+        incrementShoots: function () {
+            this.shoots++;
+            this.generateFlash();
+        },
+        setShoots: function (value) {
+            this.shoots = value;
+        },
+        shootBullet: function () {
+            this.fire('shoot-bullet-event');
+        }
+    });
+</script>

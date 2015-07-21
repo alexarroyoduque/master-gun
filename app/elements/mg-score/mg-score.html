@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="mg-score">
+  <template>
+    <p class="text"><span>{{playerScore}}</span></p>
+  </template>
+  <style>
+    .text {
+      font-size: 40px;
+      margin: 0;
+      padding: 0px 0 0 15px;
+    }
+  </style>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mg-score',
+    properties: {
+        playerScore: {
+            type: Number,
+            value: 0
+        }
+    },
+    addScore: function (value) {
+        this.playerScore = this.playerScore + value;
+    },
+    setScore: function (value) {
+        this.playerScore = value;
+    }
+  });
+</script>

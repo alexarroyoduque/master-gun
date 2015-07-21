@@ -1,0 +1,156 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="mg-bullet-munition">
+  <template>
+    <div class$="{{computedClass}}" on-click="shootOnBullet">
+    </div>
+  </template>
+  <style>
+        :host {
+            position: absolute;
+        }
+        .bullet-munition {
+            position: relative;
+            height: 40px;
+            width: 40px;
+            opacity: 0;
+            background-color: rgb(76, 68, 53);
+            border: 2px solid black;
+            background-image: url(images/munition.png);
+            background-size: 100% 100%;
+        }
+
+
+        .bullet-munition.hide {
+            animation-name: hide-animation;
+            animation-timing-function: ease-out;
+            animation-duration: 0.2s;
+            animation-fill-mode: forwards;
+        }
+
+        .bullet-munition.move {
+            animation-name: move-animation;
+            animation-timing-function: ease-in-out;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            z-index: 999;
+        }
+
+        @keyframes move-animation {
+            0% {
+                opacity: 0;
+                top: 0px;
+            }
+            20% {
+                opacity: 1;
+            }
+            50% {
+                top: 20px;
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                top: 0px;
+            }
+        }
+
+        @keyframes hide-animation {
+            from {
+                opacity: 1;
+                top: 0px;
+                z-index: 999;
+            }
+            to {
+                top: 80px;
+                opacity: 0;
+                z-index: -999;
+            }
+        }
+  </style>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mg-bullet-munition',
+    properties: {
+        computedClass: {
+            type: String,
+            value: 'bullet-munition'
+        },
+        timeShow: {
+            type: Number,
+            value: 0
+        },
+        timeHide: {
+            type: Number,
+            value: 0
+        },
+        isAlive: {
+            type: Boolean,
+            value: false
+        },
+        init: {
+            type: Boolean,
+            value: false,
+            observer: 'activate'
+        }
+    },
+    mgScenario: '',
+    ready: function () {
+        document.addEventListener('WebComponentsReady', (function(e) {
+            this.mgScenario = document.querySelector('mg-scenario');
+            this.mgScore = document.querySelector('mg-score');
+            this.mgMunition = document.querySelector('mg-munition');
+            this.addMunitionClass();
+        }).bind(this));
+    },
+    activate: function (argument) {
+        if (argument) {
+            this.activateBullet();
+        } else {
+            if(this.timer1 || this.timer2) {
+                this.cancelBullet();
+            }
+        }
+    },
+    addMunitionClass: function () {
+        this.computedClass = 'bullet-munition';
+    },
+    addHideClass: function () {
+        this.isAlive = false;
+        this.computedClass = 'bullet-munition hide';
+    },
+    addShowClass: function () {
+        this.isAlive = true;
+        this.computedClass = 'bullet-munition move';
+    },
+    activateBullet: function () {
+        this.timer1 = setTimeout((function () {
+            this.addShowClass();
+            this.timer2 = setTimeout((function () {
+                this.addHideClass();
+            }).bind(this), this.timeHide);
+        }).bind(this), this.timeShow);
+    },
+    cancelBullet: function () {
+        this.isAlive = false;
+        clearTimeout(this.timer1);
+        clearTimeout(this.timer2);
+    },
+    killMunition: function (points) {
+        if (this.mgScenario.getShoots() < 6) {
+            if (this.isAlive) {
+                this.mgScore.addScore(points);
+                this.mgMunition.addMunition();
+                this.addHideClass();
+            }
+        }
+    },
+    shootOnBullet: function () {
+        this.killMunition(25);
+    }
+  });
+</script>

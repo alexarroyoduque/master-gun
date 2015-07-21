@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="mg-munition">
+    <template>
+        <p>
+            <img src="images/munition.png" alt="bullet">
+            <span class="amount">x <span>{{munition}}</span></span>
+        </p>
+    </template>
+    <style>
+        :host {
+            position: fixed;
+            right: 160px;
+            bottom: 10px;
+            z-index: 99999;
+        }
+
+        p {
+            position: relative;
+            margin: 0;
+            height: 120px;
+            width: 150px;
+        }
+
+        img {
+          position: absolute;
+          bottom: 5px;
+          right: 10px;
+          transform: rotate(50deg);
+        }
+
+        .amount {
+            position: absolute;
+            font-size: 36px;
+            bottom: 20px;
+            left: 65px;
+            width: 100px;
+            color: white;
+            text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+
+        }
+    </style>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'mg-munition',
+    properties: {
+        munition: {
+            type: Number,
+            value: 0,
+            notify: true
+        }
+    },
+    mgScenario: '',
+    ready: function () {
+        document.addEventListener('WebComponentsReady', (function(e) {
+            this.mgScenario = document.querySelector('mg-scenario');
+        }).bind(this));
+    },
+    getMunition: function () {
+        return this.munition;
+    },
+    addMunition: function () {
+        this.munition =  parseInt(this.munition, 10) + 6;
+    },
+    substractMunition: function () {
+        if (this.munition > 0 && this.mgScenario.getShoots() > 0) {
+            this.munition =  this.munition - 6;
+            this.mgScenario.setShoots(0);
+        }
+    }
+});
+</script>

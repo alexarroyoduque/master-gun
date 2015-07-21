@@ -1,0 +1,219 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="mg-charger-audio.html">
+<link rel="import" href="mg-bullet.html">
+
+<dom-module id="mg-charger">
+    <template>
+        <mg-charger-audio></mg-charger-audio>
+        <div class$="{{computedClass}}">
+            <template is="dom-repeat" items="{{bullets}}" index-as="i">
+                <mg-bullet full="{{item.isFull}}" number$="{{i}}"></mg-bullet>
+            </template>
+        </div>
+        <p class="reload-text" aria-hidden$="{{showReloadText}}">Reload!</p>
+    </template>
+    <style>
+        .charger {
+            position: fixed;
+            right: 20px;
+            bottom: 10px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #838383;
+            border: 2px rgb(32, 32, 32) solid;
+            transition: transform .2s ease;
+            z-index: 99999;
+        }
+
+        .reload-text {
+            position: fixed;
+            right: 53px;
+            bottom: 65px;
+            padding: 10px;
+            background-color: #790C0C;
+            color: rgb(250, 211, 211);
+            z-index: 99999;
+            margin: 0;
+            animation-name: highlight-animation;
+            animation-timing-function: ease-in-out;;
+            animation-duration: 0.3s;
+            animation-iteration-count: infinite;
+        }
+        .reload-text[aria-hidden="false"] {
+            display: none;
+        }
+
+        @keyframes highlight-animation {
+            0% {
+                background-color: #790C0C;
+            }
+
+            0% {
+                background-color: #FA5C5C;
+            }
+
+            100% {
+                background-color: #790C0C;
+            }
+        }
+
+/*        .charger:after {
+            content : "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url('../images/dirt.png'); 
+            width: 100%;
+            height: 100%;
+            opacity : 1;
+            border-radius: 50%;
+        }*/
+
+        .charger::content mg-bullet[number="0"] .bullet {
+            top: 3%;
+            left: 36%;
+            background-color: blue;
+        }
+
+        .charger::content mg-bullet[number="1"] .bullet {
+            left: 64%;
+            top: 22%;
+            background-color: yellow;
+        }
+
+        .charger::content mg-bullet[number="2"] .bullet {
+            left: 64%;
+            top: 53%;
+            background-color: green;
+        }
+
+        .charger::content mg-bullet[number="3"] .bullet {
+            left: 36%;
+            top: 70%;
+            background-color: gray;
+        }
+
+        .charger::content mg-bullet[number="4"] .bullet {
+            left: 8%;
+            top: 53%;
+            background-color: red;
+        }
+
+        .charger::content mg-bullet[number="5"] .bullet {
+            left: 8%;
+            top: 22%;
+            background-color: purple;
+        }
+
+        .charger.move-0 {
+            transform:rotate(0deg);
+        }
+
+        .charger.move-1 {
+            transform:rotate(-60deg);
+        }
+
+        .charger.move-2 {
+            transform:rotate(-120deg);
+        }
+
+        .charger.move-3 {
+            transform:rotate(-180deg);
+        }
+
+        .charger.move-4 {
+            transform:rotate(-240deg);
+        }
+
+        .charger.move-5 {
+            transform:rotate(-300deg);
+        }
+
+    </style>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'mg-charger',
+    properties: {
+        computedClass: {
+            type: String,
+            value: 'charger'
+        },
+        showReloadText: {
+            type: String,
+            value: 'false'
+        },
+        bullets: {
+            type: Array,
+            value: function() {
+                return [
+                    {isFull: 'true'},
+                    {isFull: 'true'},
+                    {isFull: 'true'},
+                    {isFull: 'true'},
+                    {isFull: 'true'},
+                    {isFull: 'true'}
+                ];
+            },
+            notify: true
+        }
+    },
+    mgChargerAudio: '',
+    mgScenario: '',
+    ready: function () {
+        document.addEventListener('WebComponentsReady', (function(e) {
+            this.mgScenario = document.querySelector('mg-scenario');
+            this.mgChargerAudio = document.querySelector('mg-charger-audio');
+        }).bind(this));
+
+        document.addEventListener('shoot-bullet-event', (function(e) {
+            this.shootBullet(e);
+        }).bind(this));
+    },
+    shootBullet: function (e) {
+        if (this.bullets) {
+            var index = -1,
+                i = 0;
+            for (i = 0; i < this.bullets.length; i++) {
+                if (this.bullets[i].isFull ===  'true') {
+                    index = i;
+                    i = this.bullets.length;
+                }
+            }
+            if (index !== -1) {
+                this.bullets[index].isFull = 'false';
+                this.notifyPath('bullets.'+ index +'.isFull', 'false');
+            }
+
+            if(this.mgScenario.getShoots() === 0) {
+                for (i = 0; i < this.bullets.length; i++) {
+                    this.bullets[i].isFull = 'true';
+                    this.notifyPath('bullets.'+ i +'.isFull', 'true');
+                }
+
+                if (this.mgChargerAudio) {
+                    this.mgChargerAudio.playReloadSound();
+                }
+            }
+
+            if (this.mgScenario.getShoots() < 6) {
+                this.computedClass = 'charger move-' + this.mgScenario.getShoots();
+                this.showReloadText = 'false';
+                if (this.mgScenario.getShoots() !== 0) {
+                    this.mgChargerAudio.playShootSound();
+                }
+            } else {
+                this.showReloadText = 'true';
+                if (this.mgScenario.getShoots() > 6) {
+                    this.mgChargerAudio.playDrySound();
+                } else {
+                    this.mgChargerAudio.playShootSound();
+                }
+            }
+        }
+    }
+});
+</script>

@@ -1,0 +1,96 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mg-scenario/mg-scenario.html">
+<link rel="import" href="../mg-munition/mg-munition.html">
+<link rel="import" href="../mg-charger/mg-charger.html">
+<link rel="import" href="../mg-menu-bar/mg-menu-bar.html">
+
+
+<dom-module id="mg-view">
+    <template>
+        <div class="superior">
+            <mg-menu-bar></mg-menu-bar>
+        </div>
+        <div class="central">
+            <mg-scenario></mg-scenario>
+            <mg-munition munition="18"></mg-munition>
+            <mg-charger></mg-charger>
+        </div>
+    </template>
+    <style>
+        :host {
+            height: 100vh;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+
+        /*http://stackoverflow.com/questions/20590239/maintain-aspect-ratio-of-div-but-fill-screen-width-and-height-in-css*/
+        /* aspect ratio */
+        :host {
+            width: 100vw; 
+            height: 56.25vw; /* height:width ratio = 9/16 = .5625  */
+            background: pink;
+            max-height: 100vh;
+            max-width: 177.78vh; /* 16/9 = 1.778 */
+            margin: auto;
+            position: absolute;
+            top:0;bottom:0; /* vertical center */
+            left:0;right:0; /* horizontal center */
+        }
+
+        .superior {
+            order: 1;
+            flex: 0 1 auto;
+            align-self: auto;
+            min-width: 100%;
+            min-height: 12%;
+            height: 12%;
+            box-shadow: inset 0px -3px 0px 0px rgba(0,0,0,0.75);
+            background: repeating-linear-gradient(
+                90deg,
+                #D2BF75,
+                #D2BF75 97px,
+                #A89961 0px,
+                #A89961 100px);
+            );
+            position: relative;
+
+        }
+
+        .superior:after {
+            content : "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url(images/dirt.png);
+            width: 100%;
+            height: 100%;
+            opacity : 1;
+        }
+
+        .central {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+            order: 2;
+            flex: 0 1 auto;
+            align-self: auto;
+            min-width: 100%;
+            min-height: 88%;
+            height: 88%;
+            background-color: yellow;
+        }
+
+
+    </style>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'mg-view'
+    });
+</script>
+

@@ -1,0 +1,95 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../mg-score/mg-score.html">
+
+<dom-module id="mg-menu-bar">
+  <template>
+    <div class="score">
+      <mg-score></mg-score>
+    </div>
+    <div class="master-gun">
+      <span class='title'>MASTER GUN</span>
+    </div>
+    <div class="tools">
+      <ul>
+        <li><button type="button" class="reset" on-click="reset">RESET</button></li>
+      </ul>
+    </div>
+  </template>
+  <style>
+    :host {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+    }
+    .score {
+      order: 1;
+      flex: 0 1 auto;
+      align-self: center;
+      min-width: 20%;
+    }
+
+    .master-gun {
+      order: 2;
+      flex: 0 1 auto;
+      align-self: center;
+      min-width: 60%;
+      text-align: center;
+    }
+
+    .master-gun .title {
+      font-size: 26px;
+    }
+
+    .tools {
+      order: 3;
+      flex: 0 1 auto;
+      align-self: center;
+      min-width: 20%;
+      z-index: 9;
+    }
+
+    .tools ul {
+      margin: 0;
+    }
+
+    .tools li {
+      float: right;
+      margin-right: 20px;
+      list-style: none;
+    }
+
+    .tools li:first-child {
+      margin-left: 60px;
+    }
+
+    .tools button {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: rgb(231, 222, 186);
+      border: 2px solid black;
+      font-family: rye;
+      transform: rotate(-2deg);
+      box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
+    }
+
+    .tools button:hover {
+      background-color: rgb(218, 209, 175);
+    }
+
+    .tools button:active {
+      background-color: rgb(252, 243, 206);
+    }
+
+  </style>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mg-menu-bar',
+    reset: function () {
+      location.reload();
+    }
+  });
+</script>

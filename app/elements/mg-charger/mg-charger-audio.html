@@ -1,0 +1,66 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="mg-charger-audio">
+    <template>
+        <audio id="reload-audio" src="audio/reload.ogg" aria-hidden="true"></audio>
+        <audio id="dry-audio" src="audio/dry.ogg" aria-hidden="true"></audio>
+
+        <audio id="shoot-audio-0" src="audio/shoot0.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-1" src="audio/shoot1.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-2" src="audio/shoot2.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-3" src="audio/shoot0.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-4" src="audio/shoot1.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-5" src="audio/shoot2.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-6" src="audio/shoot0.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-7" src="audio/shoot1.ogg" aria-hidden="true"></audio>
+        <audio id="shoot-audio-8" src="audio/shoot2.ogg" aria-hidden="true"></audio>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'mg-charger-audio',
+        shootAudios: [],
+        reloadAudio: '',
+        dryAudio: '',
+        oldRandomIndex: 0,
+        newRandomIndex: 1,
+        ready: function () {
+            document.addEventListener('WebComponentsReady', (function(e) {
+                this.reloadAudio = document.querySelector('#reload-audio');
+                this.dryAudio = document.querySelector('#dry-audio');
+
+                this.push('shootAudios', document.querySelector('#shoot-audio-0'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-1'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-2'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-3'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-4'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-5'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-6'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-7'));
+                this.push('shootAudios', document.querySelector('#shoot-audio-8'));
+
+                for (var i = 0; i < this.shootAudios.length; i++) {
+                    this.shootAudios[i].volume = 0.6;
+                }
+
+            }).bind(this));
+        },
+        playShootSound: function () {
+            //Math.floor(Math.random() * (max - min + 1)) + min;
+            this.newRandomIndex = Math.floor(Math.random() * (7));
+            if (this.newRandomIndex === this.oldRandomIndex) {
+                this.newRandomIndex++;
+            }
+            this.oldRandomIndex = this.newRandomIndex;
+            this.shootAudios[this.newRandomIndex].play();
+        },
+        playDrySound: function () {
+            this.dryAudio.play();
+        },
+        playReloadSound: function () {
+            this.reloadAudio.play();
+        }
+    });
+</script>
+

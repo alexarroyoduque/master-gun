@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="mg-enemy-behavior.html">
+
+<dom-module id="mg-apache">
+  <link rel="stylesheet" type="text/css" href="mg-enemy-style.css">
+  <template>
+    <div class$="{{computedContainer}}">
+      <div class$="{{computedEnemy}}" >
+          <div class="head" on-click="shootOnHead"></div>
+          <div class="body" on-click="shootOnBody"></div>
+      </div>
+    </div>
+  </template>
+  <style>
+    :host {
+      position: absolute;
+    }
+
+    .enemy-container.z-index-up {
+      z-index: 8999;
+    }
+    .enemy-container.z-index-down {
+      z-index: 8999;
+    }
+
+    .enemy:before {
+      background:url(images/enemies-sprite.png);
+      background-position: 0px -90px;
+    }
+  </style>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mg-apache',
+    behaviors: [MgEnemyBehavior]
+  });
+</script>

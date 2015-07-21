@@ -1,0 +1,92 @@
+<script>
+MgEnemyBehavior = {
+    properties: {
+        timeShow: {
+            type: Number,
+            value: 0
+        },
+        timeHide: {
+            type: Number,
+            value: 0
+        },
+        init: {
+            type: Boolean,
+            value: false,
+            observer: 'activate'
+        }
+    },
+    computedEnemy: 'enemy',
+    computedContainer: 'enemy-container',
+    isAlive: false,
+    mgScenario: '',
+    mgScore: '',
+    points: 100,
+    ready: function () {
+        document.addEventListener('WebComponentsReady', (function(e) {
+            this.mgScenario = document.querySelector('mg-scenario');
+            this.mgScore = document.querySelector('mg-score');
+            this.addEnemyClass();
+            this.bodyPoints = this.points / 2;
+        }).bind(this));
+
+    },
+    activate: function (argument) {
+        if (argument) {
+            this.activateEnemy();
+        } else {
+            if (this.timer1) {
+                this.cancelEnemy();
+            }
+        }
+    },
+    addEnemyClass: function () {
+        this.computedEnemy = 'enemy';
+    },
+    addHideClass: function () {
+        this.isAlive = false;
+        this.computedEnemy = 'enemy hide';
+        this.computedContainer = 'enemy-container z-index-down';
+    },
+    addkillClass: function () {
+        this.isAlive = false;
+        this.computedEnemy = 'enemy kill';
+        this.computedContainer = 'enemy-container z-index-down';
+    },
+    addShowClass: function () {
+        this.isAlive = true;
+        this.computedEnemy = 'enemy show';
+        this.computedContainer = 'enemy-container z-index-up';
+    },
+    activateEnemy: function () {
+        this.timer1 = setTimeout((function () {
+            this.addShowClass();
+             this.timer2 = setTimeout((function () {
+                if (this.isAlive) {
+                    this.addHideClass();
+                }
+            }).bind(this), this.timeHide);
+        }).bind(this), this.timeShow);
+    },
+    cancelEnemy: function () {
+        this.isAlive = false;
+        clearTimeout(this.timer1);
+        clearTimeout(this.timer2);
+    },
+    killEnemy: function (points) {
+        if (this.mgScenario.getShoots() < 6) {
+            if (this.isAlive) {
+                this.mgScore.addScore(points);
+                this.addkillClass();
+                this.mgScenario.playHitAudio();
+                this.cancelEnemy();
+            }
+        }
+    },
+    shootOnHead: function () {
+        this.killEnemy(this.points);
+    },
+    shootOnBody: function () {
+        this.killEnemy(this.bodyPoints);
+    }
+};
+</script>
