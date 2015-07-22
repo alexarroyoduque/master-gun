@@ -21,12 +21,17 @@
         </div>
         <div class="background" on-click="incrementShoots">
           <div class$="{{shadowComputed}}"></div>
-          <p class="byText">
-            <a href="http://alexarroyoduque.github.io/#/home" target="_black" title="portfolio">Alejandro Arroyo Duque</a>
-          </p>
-          <p class="poweredText">
-            <a href="https://www.polymer-project.org/1.0/" target="_black" title="polymer">Polymer project</a>
-          </p>
+          <div class="by">
+            <p>
+              <a href="http://alexarroyoduque.github.io/#/home" target="_blank" title="portfolio">Alejandro Arroyo Duque</a>
+            </p>
+            <p>
+              <a href="https://github.com/alexarroyoduque/master-gun" target="_blank" title="Source code">Source code</a>
+            </p>
+            <p>
+              <a href="https://www.polymer-project.org/1.0/" target="_blank" title="polymer">Polymer project</a>
+            </p>
+          </div>
 
           <div class="scenario"></div>
           <div class="scenario2"></div>
@@ -173,23 +178,7 @@
           margin: 0;
         }
 
-        .poweredText {
-          position: absolute;
-          right: 20px;
-          top: 25px;
-          padding: 5px;
-          font-family: arial;
-          font-size: 12px;
-          margin: 0;
-        }
-
-        .poweredText a {
-          color: rgb(60, 60, 60);
-          font-family: arial;
-          font-size: 12px;
-        }
-
-        .byText{
+        .by {
           position: absolute;
           right: 20px;
           top: 5px;
@@ -197,9 +186,14 @@
           font-family: arial;
           font-size: 14px;
           margin: 0;
+          text-align: right;
         }
 
-        .byText a {
+        .by p {
+          margin: 0;
+        }
+
+        .by a {
           color: rgb(60, 60, 60);
           font-family: rye;
           font-size: 12px;
