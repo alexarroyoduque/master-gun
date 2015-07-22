@@ -31,35 +31,26 @@
         .bullet-munition.move {
             animation-name: move-animation;
             animation-timing-function: ease-in-out;
-            animation-duration: 2s;
+            animation-duration: 1s;
             animation-iteration-count: infinite;
+            animation-direction: alternate;
             z-index: 999;
         }
 
         @keyframes move-animation {
             0% {
-                opacity: 0;
+                opacity: 0.5;
                 top: 0px;
-            }
-            20% {
-                opacity: 1;
-            }
-            50% {
-                top: 20px;
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
             }
             100% {
-                opacity: 0;
-                top: 0px;
+                opacity: 1;
+                top: 20px;
             }
         }
 
         @keyframes hide-animation {
             from {
-                opacity: 1;
+                opacity: 0.8;
                 top: 0px;
                 z-index: 999;
             }

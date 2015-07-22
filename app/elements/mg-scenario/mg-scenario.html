@@ -15,9 +15,7 @@
         <audio id="hit-audio4" src="audio/hit.ogg" aria-hidden="true"></audio>
 
         <div class$="{{introComputed}}">
-          <h1>MASTER GUN</h1>
           <button class="play-button" on-click="startGame" aria-hidden="{{gameStarted}}">PLAY!</button>
-
         </div>
         <div class="background" on-click="incrementShoots">
           <div class$="{{shadowComputed}}"></div>
@@ -73,10 +71,10 @@
           <mg-apache init="{{gameStarted}}" time-show="29000" time-hide="900" class="sand-1"></mg-apache>
           <mg-girl init="{{gameStarted}}" time-show="30000" time-hide="900" class="sand-2"></mg-girl>
           <mg-apache init="{{gameStarted}}" time-show="31000" time-hide="900" class="sand-3"></mg-apache>
-          <mg-bullet-munition init="{{gameStarted}}" time-show="3000" time-hide="4000" class="window-6"></mg-bullet-munition>
-          <mg-bullet-munition init="{{gameStarted}}" time-show="7000" time-hide="4000" class="window-9"></mg-bullet-munition>
-          <mg-bullet-munition init="{{gameStarted}}" time-show="17000" time-hide="4000" class="window-2"></mg-bullet-munition>
-          <mg-bullet-munition init="{{gameStarted}}" time-show="23000" time-hide="4000" class="window-4"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="3000" time-hide="3500" class="window-6"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="7000" time-hide="3500" class="window-9"></mg-bullet-munition>
+          <mg-bullet-munition init="{{gameStarted}}" time-show="17000" time-hide="3500" class="window-2"></mg-bullet-munition>
+
         </div>
       <button class="reload" on-click="reload">RELOAD</button>
       <p class="reloadText">Or press space to reload</p>
@@ -109,13 +107,6 @@
           background-size: contain;
         }
 
-        .intro h1 {
-          color: white;
-          margin: 10px;
-          font-size: 46px;
-          text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
-        }
-
         .play-button {
           font-size: 18px;
           padding: 10px 25px;
@@ -124,7 +115,7 @@
           font-family: rye;
           transform: rotate(2deg);
           box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
-          margin-top: 20%;
+          margin-top: 27%;
 
           animation-name: play-button-animation;
           animation-iteration-count: infinite;

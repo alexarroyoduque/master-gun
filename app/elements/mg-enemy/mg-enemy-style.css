@@ -1,6 +1,6 @@
 .enemy-container {
   position: relative;
-  height: 180px; /* double of 90px */
+  height: 180px; /* double of enemy image */
   width: 70px;
   overflow: hidden;
   transition: z-index linear 0.4s;
