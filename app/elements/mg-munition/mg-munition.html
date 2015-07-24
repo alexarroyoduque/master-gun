@@ -65,10 +65,7 @@ Polymer({
         this.munition =  parseInt(this.munition, 10) + 6;
     },
     substractMunition: function () {
-        if (this.munition > 0 && this.mgScenario.getShoots() > 0) {
-            this.munition =  this.munition - 6;
-            this.mgScenario.setShoots(0);
-        }
+        this.munition =  this.munition - 6;
     }
 });
 </script>

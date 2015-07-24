@@ -333,13 +333,19 @@
                 }
             }).bind(this));
         },
+        setShoots: function (value) {
+            this.shoots = value;
+        },
+        getShoots: function () {
+            return this.shoots;
+        },
         startGame: function () {
           this.introComputed = 'hide';
           this.shadowComputed = 'hide';
           this.gameStarted = true;
-          this.shoots = 0;
           this.mgMunition.munition = 18;
           this.mgScore.setScore(0);
+          this.setShoots(0);
         },
         playHitAudio: function () {
             //Math.floor(Math.random() * (max - min + 1)) + min;
@@ -351,26 +357,22 @@
             this.hitAudios[this.newRandomIndex].play();
         },
         reload: function () {
-            this.mgMunition.substractMunition();
-        },
-        getShoots: function () {
-            return this.shoots;
+            if (this.mgMunition.getMunition() > 0 && this.getShoots() > 0) {
+                this.mgMunition.substractMunition();
+                this.setShoots(0);
+            }
         },
         generateFlash: function () {
-            if (this.shoots < 7) {
-                this.flashComputedClass = 'flash show';
-
-                setTimeout((function () {
-                    this.flashComputedClass = 'flash';
-                }).bind(this), 100);
-            }
+            this.flashComputedClass = 'flash show';
+            setTimeout((function () {
+                this.flashComputedClass = 'flash';
+            }).bind(this), 100);
         },
         incrementShoots: function () {
             this.shoots++;
-            this.generateFlash();
-        },
-        setShoots: function (value) {
-            this.shoots = value;
+            if (this.getShoots() < 7) {
+                this.generateFlash();
+            }
         },
         shootBullet: function () {
             this.fire('shoot-bullet-event');
