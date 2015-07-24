@@ -170,49 +170,63 @@ Polymer({
         }).bind(this));
 
         document.addEventListener('shoot-bullet-event', (function(e) {
-            this.shootBullet(e);
+            this.chargerStrategy(e);
         }).bind(this));
     },
-    shootBullet: function (e) {
-        if (this.bullets) {
-            var index = -1,
-                i = 0;
+    reloadStrategy: function () {
+        if(this.mgScenario.getShoots() === 0) {
             for (i = 0; i < this.bullets.length; i++) {
-                if (this.bullets[i].isFull ===  'true') {
-                    index = i;
-                    i = this.bullets.length;
-                }
-            }
-            if (index !== -1) {
-                this.bullets[index].isFull = 'false';
-                this.notifyPath('bullets.'+ index +'.isFull', 'false');
+                this.bullets[i].isFull = 'true';
+                this.notifyPath('bullets.'+ i +'.isFull', 'true');
             }
 
-            if(this.mgScenario.getShoots() === 0) {
-                for (i = 0; i < this.bullets.length; i++) {
-                    this.bullets[i].isFull = 'true';
-                    this.notifyPath('bullets.'+ i +'.isFull', 'true');
-                }
-
-                if (this.mgChargerAudio) {
-                    this.mgChargerAudio.playReloadSound();
-                }
+            if (this.mgChargerAudio) {
+                this.mgChargerAudio.playReloadSound();
             }
+        }
+    },
+    checkIfCanShoot: function () {
+        return this.mgScenario.getShoots() < 6;
+    },
+    emptySlotIfIsPossible: function (argument) {
+        var index = -1,
+            i = 0,
+            bulletsLenght = this.bullets.length;
 
-            if (this.mgScenario.getShoots() < 6) {
-                this.computedClass = 'charger move-' + this.mgScenario.getShoots();
-                this.showReloadText = 'false';
-                if (this.mgScenario.getShoots() !== 0) {
-                    this.mgChargerAudio.playShootSound();
-                }
+        for (i = 0; i < bulletsLenght; i++) {
+            if (this.bullets[i].isFull ===  'true') {
+                index = i;
+                i = bulletsLenght;
+            }
+        }
+
+        if (index !== -1) {
+            this.bullets[index].isFull = 'false';
+            this.notifyPath('bullets.'+ index +'.isFull', 'false');
+        }
+    },
+    shootIfIsPossible: function () {
+        if (this.checkIfCanShoot()) {
+            this.computedClass = 'charger move-' + this.mgScenario.getShoots();
+            this.showReloadText = 'false';
+
+            if (this.mgScenario.getShoots() !== 0) {
+                this.mgChargerAudio.playShootSound();
+            }
+        } else {
+            this.showReloadText = 'true';
+            if (this.mgScenario.getShoots() > 6) {
+                this.mgChargerAudio.playDrySound();
             } else {
-                this.showReloadText = 'true';
-                if (this.mgScenario.getShoots() > 6) {
-                    this.mgChargerAudio.playDrySound();
-                } else {
-                    this.mgChargerAudio.playShootSound();
-                }
+                this.mgChargerAudio.playShootSound();
             }
+        }
+    },
+    chargerStrategy: function (e) {
+        if (this.bullets) {
+            this.emptySlotIfIsPossible();
+            this.reloadStrategy();
+            this.shootIfIsPossible();
         }
     }
 });
