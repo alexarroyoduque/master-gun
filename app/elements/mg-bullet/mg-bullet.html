@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<dom-module id="mg-bullet-munition">
+<dom-module id="mg-bullet">
   <template>
     <div class$="{{computedClass}}" on-click="shootOnBullet">
     </div>
@@ -9,26 +9,26 @@
         :host {
             position: absolute;
         }
-        .bullet-munition {
+        .bullet {
             position: relative;
             height: 40px;
             width: 40px;
             opacity: 0;
             background-color: rgb(76, 68, 53);
             border: 2px solid black;
-            background-image: url(images/munition.png);
+            background-image: url(images/bullet.png);
             background-size: 100% 100%;
         }
 
 
-        .bullet-munition.hide {
+        .bullet.hide {
             animation-name: hide-animation;
             animation-timing-function: ease-out;
             animation-duration: 0.2s;
             animation-fill-mode: forwards;
         }
 
-        .bullet-munition.move {
+        .bullet.move {
             animation-name: move-animation;
             animation-timing-function: ease-in-out;
             animation-duration: 1s;
@@ -65,11 +65,11 @@
 
 <script>
   Polymer({
-    is: 'mg-bullet-munition',
+    is: 'mg-bullet',
     properties: {
         computedClass: {
             type: String,
-            value: 'bullet-munition'
+            value: 'bullet'
         },
         timeShow: {
             type: Number,
@@ -108,15 +108,15 @@
         }
     },
     addMunitionClass: function () {
-        this.computedClass = 'bullet-munition';
+        this.computedClass = 'bullet';
     },
     addHideClass: function () {
         this.isAlive = false;
-        this.computedClass = 'bullet-munition hide';
+        this.computedClass = 'bullet hide';
     },
     addShowClass: function () {
         this.isAlive = true;
-        this.computedClass = 'bullet-munition move';
+        this.computedClass = 'bullet move';
     },
     activateBullet: function () {
         this.timer1 = setTimeout((function () {
