@@ -1,25 +1,23 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<dom-module id="mg-bullet">
+<dom-module id="mg-slot">
   <template>
     <div class$="{{computedStyle}}"></div>
   </template>
   <style>
-    .bullet {
+    .slot {
         position: absolute;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        /*box-shadow: inset 0px 0px 0px 3px rgba(0,0,0,0.75);*/
     }
 
-    .true {
-        background-color: #ADA50B !important;
-        background-image: url(images/bullet.png);
+    .full {
+        background-image: url(images/slot-full.png);
     }
 
-    .false {
-        background-color: #242424 !important;
+    .empty {
+        background-color: #242424;
     }
 
 
@@ -28,17 +26,17 @@
 
 <script>
   Polymer({
-    is: 'mg-bullet',
+    is: 'mg-slot',
     properties: {
-        full: {
+        status: {
             type: String,
             value: 'true',
             notify: true,
             observer: 'changeStatus'
         }
     },
-    changeStatus: function (e) {
-        this.computedStyle = 'bullet ' + e;
+    changeStatus: function (newValue) {
+        this.computedStyle = 'slot ' + newValue;
     }
   });
 </script>

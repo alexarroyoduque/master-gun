@@ -1,13 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="mg-charger-audio.html">
-<link rel="import" href="mg-bullet.html">
+<link rel="import" href="mg-slot.html">
 
 <dom-module id="mg-charger">
     <template>
         <mg-charger-audio></mg-charger-audio>
         <div class$="{{computedClass}}">
-            <template is="dom-repeat" items="{{bullets}}" index-as="i">
-                <mg-bullet full="{{item.isFull}}" number$="{{i}}"></mg-bullet>
+            <template is="dom-repeat" items="{{slots}}" index-as="i">
+                <mg-slot status="{{item.status}}" number$="{{i}}"></mg-slot>
             </template>
         </div>
         <p class="reload-text" aria-hidden$="{{showReloadText}}">Reload!</p>
@@ -58,56 +58,37 @@
             }
         }
 
-/*        .charger:after {
-            content : "";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-image: url('../images/dirt.png'); 
-            width: 100%;
-            height: 100%;
-            opacity : 1;
-            border-radius: 50%;
-        }*/
-
-        .charger::content mg-bullet[number="0"] .bullet {
+        .charger::content mg-slot[number="0"] .slot {
             top: 3%;
             left: 36%;
-            background-color: blue;
         }
 
-        .charger::content mg-bullet[number="1"] .bullet {
+        .charger::content mg-slot[number="1"] .slot {
             left: 64%;
             top: 22%;
-            background-color: yellow;
         }
 
-        .charger::content mg-bullet[number="2"] .bullet {
+        .charger::content mg-slot[number="2"] .slot {
             left: 64%;
             top: 53%;
-            background-color: green;
         }
 
-        .charger::content mg-bullet[number="3"] .bullet {
+        .charger::content mg-slot[number="3"] .slot {
             left: 36%;
             top: 70%;
-            background-color: gray;
         }
 
-        .charger::content mg-bullet[number="4"] .bullet {
+        .charger::content mg-slot[number="4"] .slot {
             left: 8%;
             top: 53%;
-            background-color: red;
         }
 
-        .charger::content mg-bullet[number="5"] .bullet {
+        .charger::content mg-slot[number="5"] .slot {
             left: 8%;
             top: 22%;
-            background-color: purple;
         }
 
-        .charger.move-0 {
+       .charger.move-0 {
             transform:rotate(0deg);
         }
 
@@ -127,7 +108,7 @@
             transform:rotate(-240deg);
         }
 
-        .charger.move-5 {
+        .charger.move-5, .charger.move-6 {
             transform:rotate(-300deg);
         }
 
@@ -146,16 +127,16 @@ Polymer({
             type: String,
             value: 'false'
         },
-        bullets: {
+        slots: {
             type: Array,
             value: function() {
                 return [
-                    {isFull: 'true'},
-                    {isFull: 'true'},
-                    {isFull: 'true'},
-                    {isFull: 'true'},
-                    {isFull: 'true'},
-                    {isFull: 'true'}
+                    {status: 'full'},
+                    {status: 'full'},
+                    {status: 'full'},
+                    {status: 'full'},
+                    {status: 'full'},
+                    {status: 'full'}
                 ];
             },
             notify: true
@@ -164,69 +145,53 @@ Polymer({
     mgChargerAudio: '',
     mgScenario: '',
     ready: function () {
-        document.addEventListener('WebComponentsReady', (function(e) {
+        document.addEventListener('WebComponentsReady', (function() {
             this.mgScenario = document.querySelector('mg-scenario');
             this.mgChargerAudio = document.querySelector('mg-charger-audio');
         }).bind(this));
 
-        document.addEventListener('shoot-bullet-event', (function(e) {
-            this.chargerStrategy(e);
+        document.addEventListener('shoot-bullet-event', (function() {
+            this.shootStrategy();
+        }).bind(this));
+
+        document.addEventListener('reload-charger-event', (function() {
+            this.reloadCharger();
         }).bind(this));
     },
-    reloadStrategy: function () {
-        if(this.mgScenario.getShoots() === 0) {
-            for (i = 0; i < this.bullets.length; i++) {
-                this.bullets[i].isFull = 'true';
-                this.notifyPath('bullets.'+ i +'.isFull', 'true');
-            }
+    reloadCharger: function () {
+        this.slots.forEach(function (item, index) {
+            item.status = 'full';
+            this.notifyPath('slots.' + index + '.status', 'full');
+        }.bind(this));
 
-            if (this.mgChargerAudio) {
-                this.mgChargerAudio.playReloadSound();
-            }
-        }
-    },
-    checkIfCanShoot: function () {
-        return this.mgScenario.getShoots() < 6;
-    },
-    emptySlotIfIsPossible: function (argument) {
-        var index = -1,
-            i = 0,
-            bulletsLenght = this.bullets.length;
-
-        for (i = 0; i < bulletsLenght; i++) {
-            if (this.bullets[i].isFull ===  'true') {
-                index = i;
-                i = bulletsLenght;
-            }
+        if (this.mgChargerAudio) {
+            this.mgChargerAudio.playReloadSound();
         }
 
-        if (index !== -1) {
-            this.bullets[index].isFull = 'false';
-            this.notifyPath('bullets.'+ index +'.isFull', 'false');
-        }
+        this.computedClass = 'charger move-0';
+        this.showReloadText = 'false';
     },
-    shootIfIsPossible: function () {
-        if (this.checkIfCanShoot()) {
-            this.computedClass = 'charger move-' + this.mgScenario.getShoots();
-            this.showReloadText = 'false';
+    shootStrategy: function () {
+        if (this.slots) {
+            var firstSlotFull = -1,
+                i = 0,
+                slotsLenght = this.slots.length;
 
-            if (this.mgScenario.getShoots() !== 0) {
-                this.mgChargerAudio.playShootSound();
+            for (i = 0; i < slotsLenght; i++) {
+                if (this.slots[i].status ===  'full') {
+                    firstSlotFull = i;
+                    this.slots[firstSlotFull].status = 'empty';
+                    this.notifyPath('slots.'+ firstSlotFull +'.status', 'empty');
+                    this.mgChargerAudio.playShootSound();
+                    this.computedClass = 'charger move-' + this.mgScenario.getShoots();
+                    i = slotsLenght;
+                }
             }
-        } else {
-            this.showReloadText = 'true';
-            if (this.mgScenario.getShoots() > 6) {
+
+            if (firstSlotFull === -1) {
+                this.showReloadText = 'true';
                 this.mgChargerAudio.playDrySound();
-            } else {
-                this.mgChargerAudio.playShootSound();
             }
-        }
-    },
-    chargerStrategy: function (e) {
-        if (this.bullets) {
-            this.emptySlotIfIsPossible();
-            this.reloadStrategy();
-            this.shootIfIsPossible();
         }
     }
 });
