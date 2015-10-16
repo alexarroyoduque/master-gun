@@ -11,7 +11,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     usemin = require('gulp-usemin'),
-    tinypng = require('gulp-tinypng');
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('imagemin-pngquant');
 
 var path = {
     app: './app/',
@@ -66,7 +67,10 @@ gulp.task('dist-images-app', function() {
         .pipe(debug({
             title: 'file:'
         }))
-        .pipe(tinypng(TINYPNG_API))
+        .pipe(imagemin({
+            progressive: true,
+            use: [pngquant()]
+        }))
         .pipe(gulp.dest(path.dist + 'images'));
 });
 
