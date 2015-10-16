@@ -28,8 +28,6 @@ var path = {
     distElements: './dist/elements'
 };
 
-const TINYPNG_API = '8FiQFj9oWwEyTBHMMwxjvuYNx05Fphk2';
-
 gulp.task('webserver', function() {
     return gulp.src(path.app)
         .pipe(webserver({
