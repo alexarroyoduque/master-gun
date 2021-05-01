@@ -1,8 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="mg-enemy-behavior.html">
+<link rel="import" href="mg-enemy-style.html">
 
 <dom-module id="mg-girl">
-  <link rel="stylesheet" type="text/css" href="mg-enemy-style.css">
+  <style include="mg-enemy-shared-styles"></style>
   <template>
     <div class$="{{computedContainer}}">
       <div class$="{{computedEnemy}}" >

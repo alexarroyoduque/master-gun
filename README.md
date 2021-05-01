@@ -4,9 +4,12 @@
 
 Arcade shooter in the Wild West. Shoot enemies and add points on your score.
 
-[Play with the Demo](https://master-gun.herokuapp.com/)
+[Play with the Demo](https://master-gun-online.web.app)
 
 ## Development
+
+This project use Polymer 1.0.
+Use node 6.X
 
 ### Install dependencies
 
@@ -22,6 +25,12 @@ $ gulp
 
 ```sh
 $ gulp build
+```
+
+### After build if you want deploy
+
+```sh
+$ firebase deply
 ```
 
 ## License

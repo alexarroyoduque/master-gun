@@ -77,7 +77,10 @@ gulp.task('dist-images-elements', function() {
         .pipe(debug({
             title: 'file:'
         }))
-        .pipe(tinypng(TINYPNG_API))
+        .pipe(imagemin({
+            progressive: true,
+            use: [pngquant()]
+        }))
         .pipe(gulp.dest(path.distElements));
 });
 
